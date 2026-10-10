@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERSONALLY — MBTI Test</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f5ff;color:#201b2c;font-family:Arial,sans-serif}
+main{max-width:600px;margin:50px auto;padding:20px}
+.card{background:white;padding:30px;border-radius:24px;text-align:center;box-shadow:0 8px 30px #0001}
+h1{font-size:42px}
+p{line-height:1.6;color:#666}
+button{width:100%;padding:16px;margin-top:12px;border:0;border-radius:14px;background:#201b2c;color:white;font-size:16px;font-weight:bold}
+.answer{background:#eee9ff;color:#201b2c;text-align:left}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<main>
+<div class="card" id="home">
+<h1>PERSONALLY ✨</h1>
+<p>Өөрийгөө илүү сайн тань.</p>
+<p>24 асуултад хариулж, MBTI төрлөө ол!</p>
+<button onclick="startTest()">ТЕСТЭЭ ЭХЛҮҮЛЭХ →</button>
+</div>
+<div class="card hidden" id="test">
+<p id="number"></p>
+<h2 id="question"></h2>
+<div id="answers"></div>
+</div>
+<div class="card hidden" id="result">
+<h1 id="type"></h1>
+<p>Таны MBTI төрөл бэлэн боллоо!</p>
+<button onclick="location.reload()">ДАХИН ТЕСТ ӨГӨХ</button>
+</div>
+</main>
+<script>
+const qs=[
+["Олон хүнтэй байхад эрч хүч авдаг уу?","E","I"],
+["Шинэ хүмүүстэй амархан танилцдаг уу?","E","I"],
+["Ганцаараа байх дуртай юу?","I","E"],
+["Бодлоо ярьж байж цэгцэлдэг үү?","E","I"],
+["Бодит баримтад итгэдэг үү?","S","N"],
+["Төсөөлөн бодох дуртай юу?","N","S"],
+["Жижиг зүйлс анзаардаг уу?","S","N"],
+["Шинэ санаа бодох дуртай юу?","N","S"],
+["Логикоор шийдвэр гаргадаг уу?","T","F"],
+["Бусдын мэдрэмжийг түрүүнд боддог уу?","F","T"],
+["Үнэн зөвийг чухалчилдаг уу?","T","F"],
+["Бусдын сэтгэл санааг мэдэрдэг үү?","F","T"],
+["Төлөвлөгөөтэй байх дуртай юу?","J","P"],
+["Гэнэтийн өөрчлөлтөд дуртай юу?","P","J"],
+["Ажлаа эрт дуусгах дуртай юу?","J","P"],
+["Сонголтоо нээлттэй үлдээдэг үү?","P","J"],
+["Багаар ажиллах дуртай юу?","E","I"],
+["Дотроо их боддог уу?","I","E"],
+["Шинэ зүйл турших дуртай юу?","N","S"],
+["Зааврыг дагах дуртай юу?","S","N"],
+["Шийдвэрээ хурдан гаргадаг уу?","T","F"],
+["Бусдын сэтгэлийг боддог уу?","F","T"],
+["Өдөр тутмын ажлаа төлөвлөдөг үү?","J","P"],
+["Тухайн үедээ шийддэг үү?","P","J"]
+];
+let i=0,s={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+function startTest(){
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("test").classList.remove("hidden");
+ showQ();
+}
+function showQ(){
+ document.getElementById("number").textContent="Асуулт "+(i+1)+" / 24";
+ document.getElementById("question").textContent=qs[i][0];
+ let a=document.getElementById("answers");a.innerHTML="";
+ [1,2].forEach((v)=>{
+ let b=document.createElement("button");b.className="answer";
+ b.textContent=v===1?"Тийм / Ихэвчлэн тийм":"Үгүй / Ихэвчлэн үгүй";
+ b.onclick=()=>{s[qs[i][v]]++;i++;if(i<24)showQ();else finish()};
+ a.appendChild(b);
+ });
+}
+function finish(){
+ let t=(s.E>=s.I?"E":"I")+(s.S>=s.N?"S":"N")+(s.T>=s.F?"T":"F")+(s.J>=s.P?"J":"P");
+ document.getElementById("test").classList.add("hidden");
+ document.getElementById("result").classList.remove("hidden");
+ document.getElementById("type").textContent=t;
+}
+</script>
+</body>
+</html>
